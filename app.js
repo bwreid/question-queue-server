@@ -10,6 +10,8 @@ app.get('/', (req, res, next) => {
   res.json({ message: 'Welcome to the Question Queue!' })
 })
 
+app.use('/queues', require('./routes/queue.routes'))
+
 app.use((req, res, next) => {
   const status = 404
   const message = `Could not ${req.method} ${req.url}.`
