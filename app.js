@@ -11,6 +11,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.use('/queues', require('./routes/queue.routes'))
+app.use('/queues/:queueId/questions', require('./routes/question.routes'))
 
 app.use((req, res, next) => {
   const status = 404
