@@ -4,6 +4,12 @@ const dbPath = path.join(__dirname, 'question.db.json')
 const mecha = new JSONMecha(dbPath)
 const uuid = require('uuid/v4')
 
+function getAll (queueId) {
+  return mecha.get()
+    .filter(question => !question.answered)
+    .filter(question => question.queueId === queueId)
+}
+
 function create ({ name, content }, queueId) {
   const datetime = new Date()
   const answered = false
@@ -17,4 +23,4 @@ function create ({ name, content }, queueId) {
   return mecha.create({ id, queueId, name, content, datetime, answered })
 }
 
-module.exports = { create }
+module.exports = { getAll, create }
