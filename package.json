@@ -4,7 +4,7 @@
   "description": "A queue for your questions",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon -i *.db.js app.js",
     "start": "node app.js"
   },
   "author": "Wes Reid",
