@@ -4,6 +4,16 @@ const dbPath = path.join(__dirname, 'question.db.json')
 const mecha = new JSONMecha(dbPath)
 const uuid = require('uuid/v4')
 
+function validity (name, content, queueId) {
+  const errors = []
+
+  if (!name) errors.push('field `name` is required')
+  if (!content) errors.push('field `content` is required')
+
+  const error = { status: 400, message: `Invalid data: ${errors.join(', ')}` }
+  return errors.length ? error : false
+}
+
 function getAll (queueId) {
   return mecha.get()
     .filter(question => !question.answered)
@@ -13,11 +23,9 @@ function getAll (queueId) {
 function create ({ name, content }, queueId) {
   const datetime = new Date()
   const answered = false
-  const errors = []
 
-  if (!name) errors.push('field `name` is required')
-  if (!content) errors.push('field `content` is required')
-  if (errors.length) return { status: 400, message: `Invalid data: ${errors.join(', ')}` }
+  const error = validity(name, content, queueId)
+  if (error) return error
 
   const id = uuid()
   return mecha.create({ id, queueId, name, content, datetime, answered })
